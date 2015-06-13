@@ -90,9 +90,9 @@ namespace System.IO.Compression
 			if (mode != ZipArchiveMode.Read && mode != ZipArchiveMode.Create && mode != ZipArchiveMode.Update)
 				throw new ArgumentOutOfRangeException("mode");
 
-			// If the mode parameter is set to Read, the stream must support reading.
-			if (mode == ZipArchiveMode.Read && !stream.CanRead)
-				throw new ArgumentException("Stream must support reading for Read archive mode");
+			// If the mode parameter is set to Read, the stream must support reading and seeking.
+			if (mode == ZipArchiveMode.Read && (!stream.CanRead || !stream.CanSeek))
+				throw new ArgumentException("Stream must support reading and seeking for Read archive mode");
 
 			// If the mode parameter is set to Create, the stream must support writing.
 			if (mode == ZipArchiveMode.Create && !stream.CanWrite)
